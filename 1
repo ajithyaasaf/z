@@ -1,0 +1,197 @@
+prepared statement.java
+
+package database;
+
+import java.io.*;
+import java.sql.*;
+import java.util.logging.*;
+public class Database {
+    public static void main(String[] args) throws SQLException, IOException {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/mca", "jmc", "jmc");
+        Statement st = con.createStatement();
+        System.out.println("Connection Established Successfully");
+//        st.executeUpdate("create table stud(sno int,sname varchar(20),class varchar(10),dept varchar(10))");
+        int x;
+        do {
+            System.out.println("Main Menu");
+            System.out.println("=======================");
+            System.out.println("1: Insert Student");
+            System.out.println("2: Update Student");
+            System.out.println("3: Delete Student");
+            System.out.println("4: Display");
+            System.out.println("5: Search Student");
+            System.out.println("6: Exit");
+            System.out.println("=======================");
+            System.out.println("Enter choice:");
+            x = Integer.parseInt(br.readLine());
+            switch (x) {
+                case 1:
+                    System.out.println("Enter student details..");
+                    System.out.print("Roll No:");
+                    int sno = Integer.parseInt(br.readLine());
+                    System.out.print("Name:");
+                    String sname = br.readLine();
+                    System.out.print("Class:");
+                    String cla = br.readLine();
+                    System.out.print("Department Name:");
+                    String dept = br.readLine();
+                    st.executeUpdate("insert into stud values(" + sno + ",'" + sname + "','" + cla + "','" + dept + "')");
+                    System.out.println("Student Added..");
+                    break;
+                case 2:
+                    System.out.println("Enter student details..");
+                    System.out.print("Roll No:");
+                    int no = Integer.parseInt(br.readLine());
+                    System.out.print("Name (Update):");
+                    String name = br.readLine();
+                    st.executeUpdate("update stud set sname = '" + name + "' where sno =" + no);
+                    System.out.println("Student Updated..");
+                    break;
+                case 3:
+                    System.out.print("Roll No:");
+                    int n = Integer.parseInt(br.readLine());
+                    st.executeUpdate("delete from stud where sno = " + n + "");
+                    System.out.println("Student Deleted..");
+                    break;
+                case 4:
+                    System.out.println("No\tName\tClass\tDept");
+                    ResultSet rs1 = st.executeQuery("select * from stud");
+                    while (rs1.next()) {
+                    System.out.println(rs1.getInt("sno") + "\t" + rs1.getString("sname") + "\t" + rs1.getString("class") + "\t" + rs1.getString("dept"));
+                    }
+                    break;
+                case 5:
+                    int check = 0;
+                    System.out.println("Enter student number to search..");
+                    int tno = Integer.parseInt(br.readLine());
+                    ResultSet rss = st.executeQuery("select * from stud");
+                    System.out.println("No\tName\tClass\tDept");
+                    while (rss.next()) {
+                    int nu = rss.getInt("sno");
+                    if (nu == tno) {
+                    check = 1;
+                    System.out.println(rss.getInt("sno") + "\t" + rss.getString("sname") + "\t" + rss.getString("class") + "\t" + rss.getString("dept"));
+                    }
+                    if (check == 0) {
+                    System.out.println("NOT FOUND");
+                    }
+                    }
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }while (x <= 6);
+    }
+}
+
+
+
+database.java
+98% of storage used … If you run out, you can't create, edit, and upload files. Get 100 GB of storage for ₹130.00 ₹65.00/month for 6 months.
+Database.java
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package database;
+
+import java.io.*;
+import java.sql.*;
+import java.util.logging.*;
+public class Database {
+    public static void main(String[] args) throws SQLException, IOException {
+        try {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Database.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        Connection con = DriverManager.getConnection("jdbc:derby://localhost:1527/mca", "jmc", "jmc");
+        Statement st = con.createStatement();
+        System.out.println("Connection Established Successfully");
+        st.executeUpdate("create table stud(sno int,sname varchar(20),class varchar(10),dept varchar(10))");
+        int x;
+        do {
+            System.out.println("Main Menu");
+            System.out.println("=======================");
+            System.out.println("1: Insert Student");
+            System.out.println("2: Update Student");
+            System.out.println("3: Delete Student");
+            System.out.println("4: Display");
+            System.out.println("5: Search Student");
+            System.out.println("6: Exit");
+            System.out.println("=======================");
+            System.out.println("Enter choice:");
+            x = Integer.parseInt(br.readLine());
+            switch (x) {
+                case 1:
+                    System.out.println("Enter student details..");
+                    System.out.print("Roll No:");
+                    int sno = Integer.parseInt(br.readLine());
+                    System.out.print("Name:");
+                    String sname = br.readLine();
+                    System.out.print("Class:");
+                    String cla = br.readLine();
+                    System.out.print("Department Name:");
+                    String dept = br.readLine();
+                    st.executeUpdate("insert into stud values(" + sno + ",'" + sname + "','" + cla + "','" + dept + "')");
+                    System.out.println("Student Added..");
+                    break;
+                case 2:
+                    System.out.println("Enter student details..");
+                    System.out.print("Roll No:");
+                    int no = Integer.parseInt(br.readLine());
+                    System.out.print("Name (Update):");
+                    String name = br.readLine();
+                    st.executeUpdate("update stud set sname = '" + name + "' where sno =" + no);
+                    System.out.println("Student Updated..");
+                    break;
+                case 3:
+                    System.out.print("Roll No:");
+                    int n = Integer.parseInt(br.readLine());
+                    st.executeUpdate("delete from stud where sno = " + n + "");
+                    System.out.println("Student Deleted..");
+                    break;
+                case 4:
+                    System.out.println("No\tName\tClass\tDept");
+                    ResultSet rs1 = st.executeQuery("select * from stud");
+                    while (rs1.next()) {
+                    System.out.println(rs1.getInt("sno") + "\t" + rs1.getString("sname") + "\t" + rs1.getString("class") + "\t" + rs1.getString("dept"));
+                    }
+                    break;
+                case 5:
+                    int check = 0;
+                    System.out.println("Enter student number to search..");
+                    int tno = Integer.parseInt(br.readLine());
+                    ResultSet rss = st.executeQuery("select * from stud");
+                    System.out.println("No\tName\tClass\tDept");
+                    while (rss.next()) {
+                    int nu = rss.getInt("sno");
+                    if (nu == tno) {
+                    check = 1;
+                    System.out.println(rss.getInt("sno") + "\t" + rss.getString("sname") + "\t" + rss.getString("class") + "\t" + rss.getString("dept"));
+                    }
+                    if (check == 0) {
+                    System.out.println("NOT FOUND");
+                    }
+                    }
+                    break;
+                case 6:
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid Choice");
+            }
+        }while (x <= 6);
+    }
+}
