@@ -1,0 +1,45 @@
+index
+
+98% of storage used … If you run out, you can't create, edit, and upload files. Get 100 GB of storage for ₹130.00 ₹65.00/month for 6 months.
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Http Servlet Example</title>
+</head>
+<body bgcolor="#ff00ff">
+    <form action="FactServlet">
+        <center>
+            Enter Number: <input type="text" name="txt">
+            <input type="submit" value="submit" name="btn">
+        </center>
+    </form>
+</body>
+</html>
+
+factsevlet
+
+98% of storage used … If you run out, you can't create, edit, and upload files. Get 100 GB of storage for ₹130.00 ₹65.00/month for 6 months.
+FactServlet.java
+import java.io.*;
+import javax.servlet.http.*;
+
+public class FactServlet extends HttpServlet {
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse res)throws IOException {
+        res.setContentType("text/html");
+        try(PrintWriter pw = res.getWriter()){
+            int no = Integer.parseInt(req.getParameter("txt"));
+            int f=1;
+            for(int i=1;i<=no;i++)
+                f=f*i;
+            pw.println("<H1> factorial of "+no+" is "+f+"</H1>");
+        }
+    }
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse res)throws IOException{
+        doPost(req, res);
+    }
+}
