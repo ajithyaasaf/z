@@ -1,0 +1,69 @@
+jsp
+
+<%-- 
+    Document   : index
+    Created on : 21 Dec, 2023, 1:12:01 PM
+    Author     : student
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.io.*,java.util.*" %>
+<%
+    Date CreateTime = new Date(session.getCreationTime());
+    Date LastAccessTime = new Date(session.getLastAccessedTime());
+    String title = "Welcome Back to My Website";
+    Integer visitcount = new Integer(0);
+    String visitcountkey = new String("visitCount");
+    String userIDkey = new String("User ID");
+    String userID = new String("ABCD");
+    if(session.isNew()){
+        title = "Welcome to my website";
+        session.setAttribute(userIDkey, userID);
+        session.setAttribute(visitcountkey, visitcount);
+    }
+    visitcount = (Integer)session.getAttribute(visitcountkey);
+    visitcount = visitcount + 1;
+    userID = (String)session.getAttribute(userIDkey);
+    session.setAttribute(visitcountkey, visitcount);
+%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Session Visiting</title>
+    </head>
+    <body>
+    <center>
+        <h1>Session Visiting</h1>
+    </center>
+    <center>
+        <h2><% out.println(title); %></h2>
+    </center>
+    <table border ="1" align="center">
+        <tr bgcolor="#949494">
+            <th>Session Info</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>id</td>
+            <td><% out.print(session.getId()); %></td>
+        </tr>
+        <tr>
+            <td>Creation Time</td>
+            <td><% out.print(CreateTime); %></td>
+        </tr>
+        <tr>
+            <td>Time of Last Access</td>
+            <td><% out.print(LastAccessTime); %></td>
+        </tr>
+        <tr>
+            <td>User ID</td>
+            <td><% out.print(userID); %></td>
+        </tr>
+        <tr>
+            <td>Number of Visits</td>
+            <td><% out.print(visitcount); %></td>
+        </tr>
+    </table>
+    </body>
+</html>
