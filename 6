@@ -1,0 +1,86 @@
+98% of storage used … If you run out, you can't create, edit, and upload files. Get 100 GB of storage for ₹130.00 ₹65.00/month for 6 months.
+index.html
+<html>
+<head>
+<title> Database servlet</title>
+</head>
+<body bgcolor="white">
+<form action="DBServlet">
+<center>
+<h1> Student Mark Submission</h1><br>
+Roll No:&nbsp;<input type="text" name="txtno"><br><br>
+Name:&nbsp;&nbsp;&nbsp;<input type="text" name="txtname"><br><br>
+Mark-1:<input type="text" name="txtmark1"><br><br>
+Mark-2:<input type="text" name="txtmark2"><br><br>
+Mark-3:<input type="text" name="txtmark3"><br><br>
+<input type=submit value="Submit" name="btn">
+</center>
+</form>
+</body>
+</html>
+
+DBservlet.javaaaaa
+
+98% of storage used … If you run out, you can't create, edit, and upload files. Get 100 GB of storage for ₹130.00 ₹65.00/month for 6 months.
+DBServlet.java
+import javax.servlet.*;
+import java.io.*;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+public class DBServlet extends GenericServlet
+{
+    Connection c = null;
+    Statement  st = null;
+    PrintWriter pw = null;
+    @Override
+    public void init() throws ServletException 
+    {
+        try
+        {
+            Class.forName("org.apache.derby.jdbc.ClientDriver");
+            c = DriverManager.getConnection("jdbc:derby://localhost:1527/mark","mca","jmc");
+            st = c.createStatement();
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
+        try
+        {
+            pw = res.getWriter();
+            int rno = Integer.parseInt(req.getParameter("txtno"));
+            String name = req.getParameter("txtname");
+            int m1 = Integer.parseInt(req.getParameter("txtmark1"));
+            int m2 = Integer.parseInt(req.getParameter("txtmark2"));
+            int m3 = Integer.parseInt(req.getParameter("txtmark3"));
+            int tot = m1+m2+m3;
+            double aveg = ((double)tot)/3.0;
+            String result;
+            if(m1>49 && m2>49 && m3>49)
+            {
+                result = "Pass";
+            }
+            else
+            {
+                result = "Fail";
+            }
+            st.executeUpdate("insert into student values("+rno+",'"+name+"',"+m1+","+m2+","+m3+","+tot+","+aveg+",'"+result+"')");
+            pw.println("Stoted Successfully");
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    public void destroy(ServletRequest req, ServletResponse res)throws ServletException, SQLException
+    {
+        st.close();
+        c.close();
+    }
+
+}
